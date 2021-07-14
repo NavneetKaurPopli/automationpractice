@@ -1,9 +1,5 @@
 package com.example.demo;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
@@ -19,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class LoginFunctionality {
     WebDriver browser;
 
-    @BeforeEach
+    @BeforeMethod
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "/Users/ama/Desktop/SENG 275/web_testing/chromedriver");
         browser = new ChromeDriver();
@@ -29,7 +25,7 @@ public class LoginFunctionality {
         browser.manage().window().maximize();
     }
 
-    @AfterEach
+    @AfterMethod
     public void cleanUp() {
         browser.quit();
     }
