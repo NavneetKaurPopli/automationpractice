@@ -51,7 +51,7 @@ public class CheckoutTests {
         addItemsToCart(1);
 
         // makes sure the correct item is in the cart
-        driver.findElement(By.linkText("Printed Dress"));
+        assertNotNull(driver.findElement(By.linkText("Printed Dress")));
         assertTrue(driver.findElement(By.id("total_price")).getText().equals("$28.00"));
 
         goToSignInFromSummary();
@@ -59,7 +59,7 @@ public class CheckoutTests {
         agreeToShippingTermsOfService();
         goToPaymentFromShipping();
         payByCheque();
-        assertOrderComplete("$28.00");
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_003
@@ -68,8 +68,8 @@ public class CheckoutTests {
         signIn();
         addItemsToCart(3);
 
-        // makes sure the correct item is in the cart
-        driver.findElement(By.linkText("Printed Dress"));
+        // makes sure the correct items are in the cart
+        assertNotNull(driver.findElement(By.linkText("Printed Dress")));
         assertTrue(driver.findElement(By.id("total_price")).getText().equals("$80.00"));
 
         goToSignInFromSummary();
@@ -77,37 +77,98 @@ public class CheckoutTests {
         agreeToShippingTermsOfService();
         goToPaymentFromShipping();
         payByCheque();
-        assertOrderComplete("$80.00");
+        assertOrderComplete("$80.00", true);
     }
 
     //TC_CO_004
     @Test
     public void checkoutWithoutAcceptingTerms(){
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
+        goToShippingFromAddress();
+        goToPaymentFromShipping();
 
+        // makes sure that the user is blocked from proceeding
+        assertTrue(driver.findElement(By.className("fancybox-error")).getText().equals("You must agree to the terms of service before continuing."));
+
+        driver.findElement(By.className("fancybox-close")).click();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_005
     @Test
     public void checkoutSignIn(){
+        addItemsToCart(1);
+        goToSignInFromSummary();
 
+        // sign in
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("testing123@mailinator.com");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("supersecret\n");
+
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_006
     @Test
     public void checkoutNoSignIn(){
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
 
+        // ensure the sign in step was skipped
+        assertNotNull(driver.findElement(By.cssSelector(".step_current.third")));
+
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_007
     @Test
     public void checkoutUpdateShipping(){
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
 
+        // update shipping address
+        driver.findElement(By.linkText("Update")).click();
+        driver.findElement(By.id("submitAddress")).click();
+
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_008
     @Test
     public void checkoutUpdateBilling(){
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
 
+        // update billing address
+        driver.findElement(By.cssSelector("#address_invoice > li.address_update > a")).click();
+        driver.findElement(By.id("submitAddress")).click();
+
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_009
@@ -118,34 +179,66 @@ public class CheckoutTests {
         assertTrue(false);
     }
 
-    //TC_CO_010
-    @Test
-    public void checkoutAddNewBilling(){
-
-    }
-
     //TC_CO_011
     @Test
     public void checkoutDifferentBilling(){
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
 
+        // click the button to use our different billing address
+        driver.findElement(By.id("addressesAreEquals")).click();
+        assertNotNull(driver.findElement(By.id("uniform-id_address_invoice")));
+
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_012
     @Test
     public void checkoutAddComment(){
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
 
+        // add a comment
+        WebElement commentBox = driver.findElement(By.name("message"));
+        commentBox.sendKeys("test test test");
+
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     //TC_CO_013
     @Test
     public void checkoutPayByBankWire(){
-
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByBankWire();
+        assertOrderComplete("$28.00", false);
     }
 
     //TC_CO_014
     @Test
     public void checkoutPayByCheck(){
-
+        signIn();
+        addItemsToCart(1);
+        goToSignInFromSummary();
+        goToShippingFromAddress();
+        agreeToShippingTermsOfService();
+        goToPaymentFromShipping();
+        payByCheque();
+        assertOrderComplete("$28.00", true);
     }
 
     // helper methods
@@ -179,10 +272,10 @@ public class CheckoutTests {
     private void signIn() {
         driver.get("http://automationpractice.com/index.php?controller=authentication");
 
-        WebElement email = driver.findElement(By.xpath("//*[@id=\"email\"]"));
+        WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("testing123@mailinator.com");
 
-        WebElement password = driver.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        WebElement password = driver.findElement(By.id("passwd"));
         password.sendKeys("supersecret\n");
     }
 
@@ -207,8 +300,16 @@ public class CheckoutTests {
         driver.findElement(By.xpath("//*[@id=\"cart_navigation\"]/button")).click();
     }
 
-    private void assertOrderComplete(String expectedPrice) {
-        assertTrue(driver.findElement(By.className("alert-success")).getText().equals("Your order on My Store is complete."));
+    private void payByBankWire() {
+        driver.findElement(By.className("bankwire")).click();
+        driver.findElement(By.xpath("//*[@id=\"cart_navigation\"]/button")).click();
+    }
+
+    private void assertOrderComplete(String expectedPrice, boolean cheque) {
+        if(cheque)
+            assertTrue(driver.findElement(By.className("alert-success")).getText().equals("Your order on My Store is complete."));
+        else
+            assertTrue(driver.findElement(By.xpath("//*[@id=\"center_column\"]/div/p/strong")).getText().equals("Your order on My Store is complete."));
         assertTrue(driver.findElement(By.cssSelector(".price > strong")).getText().equals(expectedPrice));
     }
 }
