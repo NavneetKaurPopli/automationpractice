@@ -33,6 +33,11 @@ public class CreateAccount {
         create = driver.findElement(By.id("SubmitCreate"));
     }
 
+    @AfterMethod
+    public void tearDown(){
+        driver.close();
+    }
+
     //TC_CA_001
     @Test
     public void createAccountValid() {
@@ -79,6 +84,40 @@ public class CreateAccount {
         int randInt = rand.nextInt(10000);
         email.sendKeys("testing"+randInt+"@mailinator.com");
         create.click();
+
+        WebElement firstResult = new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("customer_firstname")));
+        WebElement firstName = driver.findElement(By.id("customer_firstname"));
+        WebElement lastName = driver.findElement(By.id("customer_lastname"));
+        WebElement passwd = driver.findElement(By.id("passwd"));
+        Select days = new Select(driver.findElement(By.id("days")));
+        Select months = new Select(driver.findElement(By.id("months")));
+        Select years = new Select(driver.findElement(By.id("years")));
+        WebElement address1 = driver.findElement(By.id("address1"));
+        WebElement city = driver.findElement(By.id("city"));
+        Select state = new Select(driver.findElement(By.id("id_state")));
+        WebElement postcode = driver.findElement(By.id("postcode"));
+        WebElement phone = driver.findElement(By.id("phone_mobile"));
+        WebElement alias = driver.findElement(By.id("alias"));
+        WebElement submit = driver.findElement(By.cssSelector("#submitAccount > span"));
+
+        firstName.sendKeys("John");
+        lastName.sendKeys("Doe");
+        passwd.sendKeys("1");
+        address1.sendKeys("123 street st.");
+        city.sendKeys("Anchorage");
+        postcode.sendKeys("12345");
+        phone.sendKeys("1234567890");
+        alias.sendKeys("Home");
+        state.selectByIndex(1);
+        days.selectByIndex(0);
+        months.selectByIndex(0);
+        years.selectByIndex(0);
+
+        submit.click();
+        WebElement error = new WebDriverWait(driver, 3)
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//li[contains(.,'passwd is invalid.')]")));
+        assertTrue(driver.findElements(By.xpath("//li[contains(.,'passwd is invalid.')]")).size() > 0);
     }
 
     //TC_CA_003
@@ -88,13 +127,47 @@ public class CreateAccount {
         email.sendKeys("testing"+randInt+"@mailinator.com");
         create.click();
 
+        WebElement firstResult = new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("customer_firstname")));
+        WebElement firstName = driver.findElement(By.id("customer_firstname"));
+        WebElement lastName = driver.findElement(By.id("customer_lastname"));
+        WebElement passwd = driver.findElement(By.id("passwd"));
+        Select days = new Select(driver.findElement(By.id("days")));
+        Select months = new Select(driver.findElement(By.id("months")));
+        Select years = new Select(driver.findElement(By.id("years")));
+        WebElement address1 = driver.findElement(By.id("address1"));
+        WebElement city = driver.findElement(By.id("city"));
+        Select state = new Select(driver.findElement(By.id("id_state")));
+        WebElement postcode = driver.findElement(By.id("postcode"));
+        WebElement phone = driver.findElement(By.id("phone_mobile"));
+        WebElement alias = driver.findElement(By.id("alias"));
+        WebElement submit = driver.findElement(By.cssSelector("#submitAccount > span"));
+
+        firstName.sendKeys("John");
+        lastName.sendKeys("Doe");
+        passwd.sendKeys("supersecret");
+        address1.sendKeys("123 street st.");
+        city.sendKeys("Anchorage");
+        postcode.sendKeys("V5F4G7");
+        phone.sendKeys("1234567890");
+        alias.sendKeys("Home");
+        state.selectByIndex(1);
+        days.selectByIndex(0);
+        months.selectByIndex(0);
+        years.selectByIndex(0);
+
+        submit.click();
+        assertTrue(driver.findElements(By.xpath("//ol/li")).size() > 0);
     }
 
     //TC_CA_004
     @Test
     public void emailExists(){
-
-
+        email.sendKeys("testing123@mailinator.com");
+        create.click();
+        WebElement error = new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='create_account_error']/ol/li")));
+        assertTrue(driver.findElements(By.xpath("//div[@id='create_account_error']/ol/li")).size() > 0);
     }
 
 
