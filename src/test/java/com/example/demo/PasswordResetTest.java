@@ -29,6 +29,11 @@ public class PasswordResetTest {
             submit = driver.findElement(By.cssSelector(".button-medium:nth-child(1) > span"));
         }
 
+        @AfterMethod
+        public void cleanUp() {
+            driver.quit();
+        }
+
         //TC_PR_001
         @Test
         public void resetPasswordValid(){
