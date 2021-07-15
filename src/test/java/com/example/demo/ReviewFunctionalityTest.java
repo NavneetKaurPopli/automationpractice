@@ -31,7 +31,7 @@ public class ReviewFunctionalityTest {
 
     //TC_RE_001
     @Test
-    public void userReviewFromWriteARevieWButton(){
+    public void userReviewFromWriteAReviewButton(){
         signIn();
         browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
         WebDriverWait wait = new WebDriverWait(browser, 5);
