@@ -49,6 +49,7 @@ public class AddEditRemoveFromCart {
 
     @Test
     public void AddFromQuickView() throws InterruptedException {
+        //test fails for some reason. still working to fix it
         WebElement homeIcon = browser.findElement(By.cssSelector("#columns > div.breadcrumb.clearfix > a > i"));
         homeIcon.click();
         //sleep(5000);
