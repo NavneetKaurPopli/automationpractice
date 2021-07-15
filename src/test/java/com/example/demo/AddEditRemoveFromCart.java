@@ -52,7 +52,6 @@ public class AddEditRemoveFromCart {
         //test fails for some reason. still working to fix it
         WebElement homeIcon = browser.findElement(By.cssSelector("#columns > div.breadcrumb.clearfix > a > i"));
         homeIcon.click();
-        //sleep(5000);
         Actions action = new Actions(browser);
 
         WebElement ItemToAdd = browser.findElement(By.xpath("//*[@id=\"homefeatured\"]/li[1]/div/div[1]/div/a[1]/img"));
