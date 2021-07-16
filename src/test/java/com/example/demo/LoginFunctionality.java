@@ -52,6 +52,8 @@ public class LoginFunctionality {
         email.sendKeys("seng275gmail.com");
         WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
         password.sendKeys("sengrtm\n");
+        WebElement error = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div[1]/p"));
+        assertEquals("There is 1 error", error.getText());
         assertEquals("Login - My Store", browser.getTitle());
     }
 
@@ -63,17 +65,21 @@ public class LoginFunctionality {
         email.sendKeys("seng275testing@gmail.com");
         WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
         password.sendKeys("Seng275\n");
+        WebElement error = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div[1]/p"));
+        assertEquals("There is 1 error", error.getText());
         assertEquals("Login - My Store", browser.getTitle());
     }
 
     //TC_LF_004
     @Test
-    public void InalidEmailValidPassword(){
+    public void InvalidEmailValidPassword(){
         browser.get("http://automationpractice.com/index.php?controller=authentication");
         WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
         email.sendKeys("seng275testingmail.com");
         WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
         password.sendKeys("seng275rtm\n");
+        WebElement error = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div[1]/p"));
+        assertEquals("There is 1 error", error.getText());
         assertEquals("Login - My Store", browser.getTitle());
     }
 
@@ -83,6 +89,8 @@ public class LoginFunctionality {
         browser.get("http://automationpractice.com/index.php?controller=authentication");
         WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
         password.sendKeys("\n");
+        WebElement error = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div[1]/p"));
+        assertEquals("There is 1 error", error.getText());
         assertEquals("Login - My Store", browser.getTitle());
     }
 
