@@ -82,7 +82,10 @@ public class FooterMenuTests {
 
     @Test
     public void OurStores(){
-
+        browser.get("http://automationpractice.com/index.php");
+        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[2]/a"));
+        browser.get(SpecialsLink.getAttribute("href"));
+        assertEquals(browser.getTitle(),"Stores - My Store");
     }
 
     @Test
