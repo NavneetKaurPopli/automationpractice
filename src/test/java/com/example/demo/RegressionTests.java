@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -361,6 +362,41 @@ public class RegressionTests {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id=\"block-history\"]")));
     }
+    @Test
+    public void NewProducts() {
+        browser.get("http://automationpractice.com/index.php");
+        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[2]/a"));
+        browser.get(SpecialsLink.getAttribute("href"));
+        assertEquals(browser.getTitle(), "New products - My Store");
+    }
+
+    @Test
+    public void Categories(){
+        browser.get("http://automationpractice.com/index.php");
+        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"footer\"]/div/section[2]/div/div/ul/li/a"));
+        browser.get(SpecialsLink.getAttribute("href"));
+        assertEquals(browser.getTitle(),"Women - My Store");
+    }
+
+    public void AddToCompare() {
+        Actions actions;
+        actions = new Actions(browser);
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div"));
+        actions.moveToElement(ItemFrame).perform();
+        WebElement AddToCompareButton = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div/div[3]/div[2]/a"));
+        AddToCompareButton.click();
+        try {
+            Thread.sleep(2000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton.getAttribute("class"),"add_to_compare checked");
+    }
+
 
 
 }

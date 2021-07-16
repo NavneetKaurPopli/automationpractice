@@ -52,19 +52,19 @@ public class FooterMenuTests {
     }
 
     @Test
+    public void NewProducts() {
+        browser.get("http://automationpractice.com/index.php");
+        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[2]/a"));
+        browser.get(SpecialsLink.getAttribute("href"));
+        assertEquals(browser.getTitle(), "New products - My Store");
+    }
+
+    @Test
     public void Categories(){
         browser.get("http://automationpractice.com/index.php");
         WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"footer\"]/div/section[2]/div/div/ul/li/a"));
         browser.get(SpecialsLink.getAttribute("href"));
         assertEquals(browser.getTitle(),"Women - My Store");
-    }
-
-    @Test
-    public void NewProducts(){
-        browser.get("http://automationpractice.com/index.php");
-        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[2]/a"));
-        browser.get(SpecialsLink.getAttribute("href"));
-        assertEquals(browser.getTitle(),"New products - My Store");
     }
 
     @Test
