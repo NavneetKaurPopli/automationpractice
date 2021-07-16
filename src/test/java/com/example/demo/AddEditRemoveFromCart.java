@@ -1,10 +1,6 @@
 package com.example.demo;
 
 import static java.lang.Thread.sleep;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,13 +13,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
 public class AddEditRemoveFromCart {
     WebDriver browser;
 
-    @BeforeEach
+    @BeforeMethod
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "/Users/ama/Desktop/SENG 275/web_testing/chromedriver");
         browser = new ChromeDriver();
@@ -42,7 +41,7 @@ public class AddEditRemoveFromCart {
 
     }
 
-    @AfterEach
+    @AfterMethod
     public void cleanUp() {
         browser.quit();
     }
