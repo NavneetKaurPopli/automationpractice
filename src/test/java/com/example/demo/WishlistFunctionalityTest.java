@@ -15,32 +15,32 @@ import java.util.List;
 
 public class WishlistFunctionalityTest {
 
-    private WebDriver browser;
+    private WebDriver driver;
     private boolean signedIn;
 
     @BeforeMethod
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "/Users/justin/Documents/chromedriver");
-        browser = new ChromeDriver();
-        browser.manage().window().maximize();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         signedIn = false;
     }
 
     @AfterMethod
     public void cleanUp() {
         if(signedIn == true){ clearWishlists(); }
-        browser.quit();
+        driver.quit();
     }
 
     //TC_WS_001
     @Test
     public void addItemToWishlistWithoutPriorOne(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
         navigateToWishlist();
-        WebElement itemName = browser.findElement(By.xpath("//*[@id=\"s_title\"]"));
+        WebElement itemName = driver.findElement(By.xpath("//*[@id=\"s_title\"]"));
         assertEquals(itemName.getText(), "Faded Short Sleeve T-shirts\nS, Orange");
     }
 
@@ -48,43 +48,43 @@ public class WishlistFunctionalityTest {
     @Test
     public void addItemToWishlistCreatedBeforehand(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        WebElement wishlistNameBar = browser.findElement(By.xpath("//*[@id=\"name\"]"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlistNameBar = driver.findElement(By.xpath("//*[@id=\"name\"]"));
         wishlistNameBar.sendKeys("wishlist");
-        WebElement saveButton = browser.findElement(By.id("submitWishlist"));
+        WebElement saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
         navigateToWishlist();
-        WebElement wishlistName = browser.findElement(By.cssSelector("a[href^='javascript']"));
+        WebElement wishlistName = driver.findElement(By.cssSelector("a[href^='javascript']"));
         assertEquals(wishlistName.getText(), "wishlist");
-        WebElement itemName = browser.findElement(By.xpath("//*[@id=\"s_title\"]"));
+        WebElement itemName = driver.findElement(By.xpath("//*[@id=\"s_title\"]"));
         assertEquals(itemName.getText(), "Faded Short Sleeve T-shirts\nS, Orange");
     }
 
     //TC_WS_003
     @Test
     public void noAccountNoWishlistAdd(){
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("fancybox-error")));
-        WebElement errorMessage = browser.findElement(By.className("fancybox-error"));
+        WebElement errorMessage = driver.findElement(By.className("fancybox-error"));
         assertEquals(errorMessage.getText(), "You must be logged in to manage your wishlist.");
     }
     //TC_WS_004
     @Test
     public void removeItemFromWishlist(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
         navigateToWishlist();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("icon-remove-sign")));
-        WebElement deleteItem = browser.findElement(By.className("icon-remove-sign"));
+        WebElement deleteItem = driver.findElement(By.className("icon-remove-sign"));
         deleteItem.click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id=\"wlp_1_1\"]")));
     }
@@ -93,12 +93,12 @@ public class WishlistFunctionalityTest {
     @Test
     public void createEmptyWishlist() {
         signIn();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        WebElement wishlistNameBar = browser.findElement(By.xpath("//*[@id=\"name\"]"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlistNameBar = driver.findElement(By.xpath("//*[@id=\"name\"]"));
         wishlistNameBar.sendKeys("wishlist");
-        WebElement saveButton = browser.findElement(By.id("submitWishlist"));
+        WebElement saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        WebElement wishlistName = browser.findElement(By.cssSelector("a[href^='javascript']"));
+        WebElement wishlistName = driver.findElement(By.cssSelector("a[href^='javascript']"));
         assertEquals(wishlistName.getText(), "wishlist");
     }
 
@@ -106,18 +106,18 @@ public class WishlistFunctionalityTest {
     @Test
     public void createMultipleWishlists() {
         signIn();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        WebElement wishlistNameBar = browser.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlistNameBar = driver.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
         wishlistNameBar.sendKeys("wishlist1");
-        WebElement saveButton = browser.findElement(By.id("submitWishlist"));
+        WebElement saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href^='javascript']")));
-        wishlistNameBar = browser.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
+        wishlistNameBar = driver.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
         wishlistNameBar.sendKeys("wishlist2");
-        saveButton = browser.findElement(By.id("submitWishlist"));
+        saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        List<WebElement> wishlistNames = browser.findElements(By.cssSelector("a[href^='javascript']"));
+        List<WebElement> wishlistNames = driver.findElements(By.cssSelector("a[href^='javascript']"));
         assertEquals(wishlistNames.get(3).getText(), "wishlist2");
     }
 
@@ -126,22 +126,22 @@ public class WishlistFunctionalityTest {
     @Test
     public void addItem2ndWishlist() {
         signIn();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        WebElement wishlistNameBar = browser.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlistNameBar = driver.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
         wishlistNameBar.sendKeys("wishlist1");
-        WebElement saveButton = browser.findElement(By.id("submitWishlist"));
+        WebElement saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href^='javascript']")));
-        wishlistNameBar = browser.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
+        wishlistNameBar = driver.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
         wishlistNameBar.sendKeys("wishlist2");
-        saveButton = browser.findElement(By.id("submitWishlist"));
+        saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        List<WebElement> wishlistNames = browser.findElements(By.cssSelector("a[href^='javascript']"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        List<WebElement> wishlistNames = driver.findElements(By.cssSelector("a[href^='javascript']"));
         wishlistNames.get(3).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"block-order-detail\"]")));
     }
@@ -150,12 +150,12 @@ public class WishlistFunctionalityTest {
     @Test
     public void wishlistDeleteWithItems(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
         clearWishlists();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id=\"block-history\"]")));
     }
 
@@ -163,12 +163,12 @@ public class WishlistFunctionalityTest {
     @Test
     public void wishlistDeleteWithoutItems(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        WebElement wishlistNameBar = browser.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlistNameBar = driver.findElement(By.cssSelector("input[class*='inputTxt form-control']"));
         wishlistNameBar.sendKeys("wishlist");
-        WebElement saveButton = browser.findElement(By.id("submitWishlist"));
+        WebElement saveButton = driver.findElement(By.id("submitWishlist"));
         saveButton.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         clearWishlists();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id=\"block-history\"]")));
     }
@@ -177,19 +177,19 @@ public class WishlistFunctionalityTest {
     @Test
     public void wishlistIdenticalItemSameParam(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"product\"]/div[2]/div/div/a")));
-        WebElement popupExit = browser.findElement(By.xpath("//*[@id=\"product\"]/div[2]/div/div/a"));
+        WebElement popupExit = driver.findElement(By.xpath("//*[@id=\"product\"]/div[2]/div/div/a"));
         popupExit.click();
-        WebElement quantity = browser.findElement(By.xpath("//*[@id=\"quantity_wanted\"]"));
+        WebElement quantity = driver.findElement(By.xpath("//*[@id=\"quantity_wanted\"]"));
         quantity.clear();
         quantity.sendKeys("4");
         wishlistButton.click();
         navigateToWishlist();
-        WebElement wishlistQuantity = browser.findElement(By.xpath("//*[@id=\"quantity_1_1\"]"));
+        WebElement wishlistQuantity = driver.findElement(By.xpath("//*[@id=\"quantity_1_1\"]"));
         assertEquals(wishlistQuantity.getAttribute("value"), "5");
     }
 
@@ -197,18 +197,18 @@ public class WishlistFunctionalityTest {
     @Test
     public void wishlistIdenticalItemDiffParam(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"product\"]/div[2]/div/div/a")));
-        WebElement popupExit = browser.findElement(By.xpath("//*[@id=\"product\"]/div[2]/div/div/a"));
+        WebElement popupExit = driver.findElement(By.xpath("//*[@id=\"product\"]/div[2]/div/div/a"));
         popupExit.click();
-        Select size = new Select(browser.findElement(By.xpath("//*[@id=\"group_1\"]")));
+        Select size = new Select(driver.findElement(By.xpath("//*[@id=\"group_1\"]")));
         size.selectByVisibleText("L");
         wishlistButton.click();
         navigateToWishlist();
-        List<WebElement> wishlistItems = browser.findElements(By.xpath("//*[@id=\"s_title\"]"));
+        List<WebElement> wishlistItems = driver.findElements(By.xpath("//*[@id=\"s_title\"]"));
         assertEquals(wishlistItems.get(0).getText(), "Faded Short Sleeve T-shirts\nS, Orange");
         assertEquals(wishlistItems.get(1).getText(), "Faded Short Sleeve T-shirts\nL, Orange");
 
@@ -219,30 +219,30 @@ public class WishlistFunctionalityTest {
     @Test
     public void sendWishlist(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
         navigateToWishlist();
-        WebElement sendWishlistButton = browser.findElement(By.id("showSendWishlist"));
+        WebElement sendWishlistButton = driver.findElement(By.id("showSendWishlist"));
         sendWishlistButton.click();
         sendWishlistButton.click();
-        WebElement emailName = browser.findElement(By.xpath("//*[@id=\"email1\"]"));
+        WebElement emailName = driver.findElement(By.xpath("//*[@id=\"email1\"]"));
         emailName.sendKeys("testing123@mailinator.com");
-        browser.get("https://www.mailinator.com/v4/public/inboxes.jsp?to=testing123");
-        assertFalse(browser.findElements(By.xpath("//td[contains(.,'Automation Practice')]")).size() > 0);
+        driver.get("https://www.mailinator.com/v4/public/inboxes.jsp?to=testing123");
+        assertFalse(driver.findElements(By.xpath("//td[contains(.,'Automation Practice')]")).size() > 0);
     }
 
     //TC_WS_013
     @Test
     public void wishlistPermalink(){
         signIn();
-        browser.get("http://automationpractice.com/index.php?id_product=1&controller=product");
-        WebElement wishlistButton = browser.findElement(By.id("wishlist_button"));
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
         wishlistButton.click();
         navigateToWishlist();
-        WebElement permalink = browser.findElement(By.xpath("//*[@id=\"block-order-detail\"]/div/p[1]/input"));
-        browser.get(permalink.getAttribute("value"));
-        WebElement itemInfo = browser.findElement(By.xpath("//*[@id=\"s_title\"]"));
+        WebElement permalink = driver.findElement(By.xpath("//*[@id=\"block-order-detail\"]/div/p[1]/input"));
+        driver.get(permalink.getAttribute("value"));
+        WebElement itemInfo = driver.findElement(By.xpath("//*[@id=\"s_title\"]"));
         assertEquals(itemInfo.getText(), "Faded Short Sleeve T-shirts\nS, Orange");
 
 
@@ -250,28 +250,28 @@ public class WishlistFunctionalityTest {
 
 
     private void signIn() {
-        browser.get("http://automationpractice.com/index.php?controller=authentication");
-        WebElement email = browser.findElement(By.id("email"));
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("seng275test@outlook.com");
-        WebElement password = browser.findElement(By.id("passwd"));
+        WebElement password = driver.findElement(By.id("passwd"));
         password.sendKeys("Seng275\n");
         signedIn = true;
     }
 
     private void navigateToWishlist(){
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        WebElement wishlist = browser.findElement(By.cssSelector("a[href^='javascript']"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlist = driver.findElement(By.cssSelector("a[href^='javascript']"));
         wishlist.click();
-        WebDriverWait wait = new WebDriverWait(browser, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"wlp_1_1\"]")));
     }
 
     private void clearWishlists(){
-        browser.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
-        List<WebElement> deleteButton = browser.findElements(By.cssSelector("i[class*='icon-remove']"));
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        List<WebElement> deleteButton = driver.findElements(By.cssSelector("i[class*='icon-remove']"));
         for(int i = 0; i<deleteButton.size(); i++){
             deleteButton.get(i).click();
-            browser.switchTo().alert().accept();
+            driver.switchTo().alert().accept();
         }
     }
 }
