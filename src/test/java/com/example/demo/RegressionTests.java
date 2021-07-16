@@ -12,12 +12,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.Random;
 
-import static org.testng.Assert.assertTrue;
-
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class RegressionTests {
     private WebDriver driver;
+    private WebDriver browser;
 
     @BeforeMethod
     public void setUp() {
@@ -125,4 +125,97 @@ public class RegressionTests {
         submit.click();
         assertTrue(driver.findElements(By.xpath("//ol/li")).size() > 0);
     }
+
+    //TC_ARC_011
+    @Test
+    public void LogOutCart() throws InterruptedException {
+        browser.get("http://automationpractice.com/index.php?controller=authentication");
+
+        WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
+        email.sendKeys("seng275testing@gmail.com");
+
+        WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        password.sendKeys("seng275rtm\n");
+
+        WebElement logout = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[2]/div/div/nav/div[2]/a"));
+        logout.click();
+
+        WebElement homeIcon = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[1]/a/i"));
+        homeIcon.click();
+
+        WebElement ItemToAdd = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div[1]/ul[1]/li[1]/div/div[2]/h5/a"));
+        ItemToAdd.click();
+        //new WebDriverWait(browser, 5);
+
+        WebElement AddToCart = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div/div/div[4]/form/div/div[3]/div[1]/p/button"));
+        AddToCart.click();
+        //Thread.sleep(5000);
+        //new WebDriverWait(browser, 5);
+
+        WebElement Popup = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[4]/div[1]/div[2]/h2/span[2]"));
+        //Popup.click();
+        Thread.sleep(5000);
+        assertEquals("There is 1 item in your cart.", Popup.getText());
+
+        WebElement Item = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[4]/div[1]/div[1]/div[2]/span[1]"));
+        Thread.sleep(2000);
+        assertEquals("Faded Short Sleeve T-shirts", Item.getText());
+
+        WebElement close = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[4]/div[1]/div[1]/span"));
+        close.click();
+
+        WebElement Cart = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[3]/div/a/b"));
+        Thread.sleep(2000);
+        Cart.click();
+        Thread.sleep(3000);
+        //new WebDriverWait(browser, 5);
+
+        WebElement Clothing = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div[2]/table/tbody/tr/td[2]/p/a"));
+        assertEquals("Faded Short Sleeve T-shirts", Clothing.getText());
+
+    }
+
+    //TC_ARC_012
+    @Test
+    public void LogOutRemoveCart() throws InterruptedException {
+        browser.get("http://automationpractice.com/index.php?controller=authentication");
+
+        WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
+        email.sendKeys("seng275testing@gmail.com");
+
+        WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        password.sendKeys("seng275rtm\n");
+
+        WebElement logout = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[2]/div/div/nav/div[2]/a"));
+        logout.click();
+
+        WebElement homeIcon = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[1]/a/i"));
+        homeIcon.click();
+
+        WebElement ItemToAdd = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div[1]/ul[1]/li[1]/div/div[2]/h5/a"));
+        ItemToAdd.click();
+        //new WebDriverWait(browser, 5);
+
+        WebElement AddToCart = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div/div/div[4]/form/div/div[3]/div[1]/p/button"));
+        AddToCart.click();
+
+        WebElement close = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[4]/div[1]/div[1]/span"));
+        Thread.sleep(3000);
+        close.click();
+
+        WebElement Cart = browser.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[3]/div/a/b"));
+        Thread.sleep(2000);
+        Cart.click();
+        Thread.sleep(3000);
+
+        WebElement delete = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/div[2]/table/tbody/tr/td[7]/div/a/i"));
+        Thread.sleep(3000);
+        delete.click();
+        Thread.sleep(3000);
+
+        WebElement alert = browser.findElement(By.xpath("/html/body/div/div[2]/div/div[3]/div/p"));
+        Thread.sleep(3000);
+        assertEquals("Your shopping cart is empty.", alert.getText());
+    }
+
 }
