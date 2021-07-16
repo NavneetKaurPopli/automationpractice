@@ -21,7 +21,7 @@ public class CheckoutTests {
     @BeforeMethod
     public void setUp() {
         System.setProperty("webdriver.gecko.driver", "C:\\Users\\owenj\\NotOneDrive\\geckodriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\owenj\\NotOneDrive\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\My Documents\\Uvic OneDrive\\OneDrive - University of Victoria\\School\\SENG 275\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
