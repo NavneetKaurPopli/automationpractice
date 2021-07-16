@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
@@ -42,6 +44,8 @@ public class PasswordResetTest {
 
             // Check email
             driver.get("https://www.mailinator.com/v4/public/inboxes.jsp?to=testing123");
+            Boolean loaded = new WebDriverWait(driver, 5)
+                    .until(ExpectedConditions.titleIs("Mailinator"));
             assertTrue(driver.findElements(By.xpath("//td[contains(.,'Automation Practice')]")).size() > 0);
         }
 
@@ -61,6 +65,8 @@ public class PasswordResetTest {
 
             // Check email
             driver.get("https://www.mailinator.com/v4/public/inboxes.jsp?to=testing123");
+            Boolean loaded = new WebDriverWait(driver, 5)
+                    .until(ExpectedConditions.titleIs("Mailinator"));
             assertTrue(driver.findElements(By.xpath("//td[contains(.,'Automation Practice')]")).size() > 0);
             WebElement resetEmail = driver.findElement(By.xpath("//td[contains(.,'Automation Practice')]"));
             resetEmail.click();
