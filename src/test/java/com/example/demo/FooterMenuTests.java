@@ -83,8 +83,9 @@ public class FooterMenuTests {
     @Test
     public void OurStores(){
         browser.get("http://automationpractice.com/index.php");
-        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[2]/a"));
+        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[4]/a"));
         browser.get(SpecialsLink.getAttribute("href"));
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Stores - My Store"));
         assertEquals(browser.getTitle(),"Stores - My Store");
     }
 
@@ -93,14 +94,17 @@ public class FooterMenuTests {
         browser.get("http://automationpractice.com/index.php");
         WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[3]/a"));
         browser.get(SpecialsLink.getAttribute("href"));
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Best sales - My Store"));
         assertEquals(browser.getTitle(),"Best sales - My Store");
     }
 
     @Test
     public void TermsAndConditions(){
         browser.get("http://automationpractice.com/index.php");
-        WebElement SpecialsLink = browser.findElement(By.xpath("///*[@id=\"block_various_links_footer\"]/ul/li[6]/a"));
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("My Store"));
+        WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[6]/a"));
         browser.get(SpecialsLink.getAttribute("href"));
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Terms and conditions of use - My Store"));
         assertEquals(browser.getTitle(),"Terms and conditions of use - My Store");
     }
 
@@ -109,6 +113,7 @@ public class FooterMenuTests {
         browser.get("http://automationpractice.com/index.php");
         WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[7]/a"));
         browser.get(SpecialsLink.getAttribute("href"));
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("About us - My Store"));
         assertEquals(browser.getTitle(),"About us - My Store");
     }
 
@@ -117,31 +122,71 @@ public class FooterMenuTests {
         browser.get("http://automationpractice.com/index.php");
         WebElement SpecialsLink = browser.findElement(By.xpath("//*[@id=\"block_various_links_footer\"]/ul/li[8]/a"));
         browser.get(SpecialsLink.getAttribute("href"));
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Sitemap - My Store"));
         assertEquals(browser.getTitle(),"Sitemap - My Store");
     }
 
     @Test
     public void MyOrders(){
+        browser.get("http://automationpractice.com/index.php?controller=authentication");
 
+        WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
+        email.sendKeys("seng275testing@gmail.com");
+
+        WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        password.sendKeys("seng275rtm\n");
+        browser.get("http://automationpractice.com/index.php");
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("My Store"));
+        WebElement OrderLink = browser.findElement(By.xpath("//*[@id=\"footer\"]/div/section[5]/div/ul/li[1]/a"));
+        OrderLink.click();
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Order history - My Store"));
     }
 
     @Test
     public void MyCreditSlips(){
+        browser.get("http://automationpractice.com/index.php?controller=authentication");
 
+        WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
+        email.sendKeys("seng275testing@gmail.com");
+
+        WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        password.sendKeys("seng275rtm\n");
+        browser.get("http://automationpractice.com/index.php");
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("My Store"));
+        WebElement OrderLink = browser.findElement(By.xpath("//*[@id=\"footer\"]/div/section[5]/div/ul/li[2]/a"));
+        OrderLink.click();
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Order slip - My Store"));
     }
 
     @Test
     public void MyAddresses(){
+        browser.get("http://automationpractice.com/index.php?controller=authentication");
 
+        WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
+        email.sendKeys("seng275testing@gmail.com");
+
+        WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        password.sendKeys("seng275rtm\n");
+        browser.get("http://automationpractice.com/index.php");
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("My Store"));
+        WebElement OrderLink = browser.findElement(By.xpath("//*[@id=\"footer\"]/div/section[5]/div/ul/li[3]/a"));
+        OrderLink.click();
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Addresses - My Store"));
     }
 
     @Test
     public void MyPersonalInfo(){
+        browser.get("http://automationpractice.com/index.php?controller=authentication");
 
-    }
+        WebElement email = browser.findElement(By.xpath("//*[@id=\"email\"]"));
+        email.sendKeys("seng275testing@gmail.com");
 
-    @Test
-    public void NewsLetter(){
-
+        WebElement password = browser.findElement(By.xpath("//*[@id=\"passwd\"]"));
+        password.sendKeys("seng275rtm\n");
+        browser.get("http://automationpractice.com/index.php");
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("My Store"));
+        WebElement OrderLink = browser.findElement(By.xpath("//*[@id=\"footer\"]/div/section[5]/div/ul/li[4]/a"));
+        OrderLink.click();
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Identity - My Store"));
     }
 }
