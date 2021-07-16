@@ -109,21 +109,133 @@ public class CompareTests {
 
     @Test
     public void RemoveFromCompareReload(){
-
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div"));
+        actions.moveToElement(ItemFrame).perform();
+        WebElement AddToCompareButton = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div/div[3]/div[2]/a"));
+        AddToCompareButton.click();
+        try {
+            Thread.sleep(3000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton.getAttribute("class"),"add_to_compare checked");
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        actions.moveToElement(ItemFrame).perform();
+        AddToCompareButton.click();
+        try {
+            Thread.sleep(3000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton.getAttribute("class"),"add_to_compare");
     }
 
     @Test
     public void addFourthToCompare(){
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div"));
+        actions.moveToElement(ItemFrame).perform();
+        WebElement AddToCompareButton = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div/div[3]/div[2]/a"));
+        AddToCompareButton.click();
+        try {
+            Thread.sleep(2000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton.getAttribute("class"),"add_to_compare checked");
 
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame2 = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[2]/div"));
+        actions.moveToElement(ItemFrame2).perform();
+        WebElement AddToCompareButton2 = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[2]/div/div[3]/div[2]/a"));
+        AddToCompareButton2.click();
+        try {
+            Thread.sleep(2000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton2.getAttribute("class"),"add_to_compare checked");
+
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame3 = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[3]/div"));
+        actions.moveToElement(ItemFrame3).perform();
+        WebElement AddToCompareButton3 = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[3]/div/div[3]/div[2]/a"));
+        AddToCompareButton3.click();
+        try {
+            Thread.sleep(2000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton3.getAttribute("class"),"add_to_compare checked");
     }
 
     @Test
     public void ComparePageTwoItems(){
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div"));
+        actions.moveToElement(ItemFrame).perform();
+        WebElement AddToCompareButton = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div/div[3]/div[2]/a"));
+        AddToCompareButton.click();
+        try {
+            Thread.sleep(2000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton.getAttribute("class"),"add_to_compare checked");
 
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame2 = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[2]/div"));
+        actions.moveToElement(ItemFrame2).perform();
+        WebElement AddToCompareButton2 = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[2]/div/div[3]/div[2]/a"));
+        AddToCompareButton2.click();
+        try {
+            Thread.sleep(2000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton2.getAttribute("class"),"add_to_compare checked");
     }
 
     @Test
     public void ComparePageDetails(){
-
+        browser.get("http://automationpractice.com/index.php?id_category=3&controller=category");
+        WebElement ItemFrame = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div"));
+        actions.moveToElement(ItemFrame).perform();
+        WebElement AddToCompareButton = browser.findElement(By.xpath("//*[@id=\"center_column\"]/ul/li[1]/div/div[3]/div[2]/a"));
+        AddToCompareButton.click();
+        try {
+            Thread.sleep(3000);
+        }
+        catch
+        (
+                InterruptedException
+                        ignored) {
+        }
+        assertEquals(AddToCompareButton.getAttribute("class"),"add_to_compare checked");
+        WebElement ComparePageButton = browser.findElement(By.xpath("//*[@id=\"center_column\"]/div[3]/div[2]/form/button/span"));
+        ComparePageButton.click();
+        new WebDriverWait(browser, 5).until(ExpectedConditions.titleIs("Products Comparison - My Store"));
     }
 }
