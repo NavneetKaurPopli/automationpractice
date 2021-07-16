@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -83,6 +84,27 @@ public class RegressionTests {
         driver.findElement(By.xpath("//*[@id=\"cart_navigation\"]/button")).click();
         assertTrue(driver.findElement(By.className("alert-success")).getText().equals("Your order on My Store is complete."));
         assertTrue(driver.findElement(By.cssSelector(".price > strong")).getText().equals("$80.00"));
+    }
+
+    @Test
+    public void validSearch(){
+        driver.get("http://automationpractice.com/index.php");
+        WebElement search = driver.findElement(By.id("search_query_top"));
+        search.sendKeys("blouse");
+        search.sendKeys(Keys.RETURN);
+        assertTrue(driver.findElements(By.cssSelector(".ajax_block_product")).size() > 0);
+
+        search = driver.findElement(By.id("search_query_top"));
+        search.clear();
+        search.sendKeys("top");
+        search.sendKeys(Keys.RETURN);
+        assertTrue(driver.findElements(By.cssSelector(".ajax_block_product")).size() > 0);
+
+        search = driver.findElement(By.id("search_query_top"));
+        search.clear();
+        search.sendKeys("shirt");
+        search.sendKeys(Keys.RETURN);
+        assertTrue(driver.findElements(By.cssSelector(".ajax_block_product")).size() > 0);
     }
 
     //TC_CA_003
