@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.List;
 import java.util.Random;
 
 import static org.testng.Assert.*;
@@ -81,6 +84,27 @@ public class RegressionTests {
         driver.findElement(By.xpath("//*[@id=\"cart_navigation\"]/button")).click();
         assertTrue(driver.findElement(By.className("alert-success")).getText().equals("Your order on My Store is complete."));
         assertTrue(driver.findElement(By.cssSelector(".price > strong")).getText().equals("$80.00"));
+    }
+
+    @Test
+    public void validSearch(){
+        driver.get("http://automationpractice.com/index.php");
+        WebElement search = driver.findElement(By.id("search_query_top"));
+        search.sendKeys("blouse");
+        search.sendKeys(Keys.RETURN);
+        assertTrue(driver.findElements(By.cssSelector(".ajax_block_product")).size() > 0);
+
+        search = driver.findElement(By.id("search_query_top"));
+        search.clear();
+        search.sendKeys("top");
+        search.sendKeys(Keys.RETURN);
+        assertTrue(driver.findElements(By.cssSelector(".ajax_block_product")).size() > 0);
+
+        search = driver.findElement(By.id("search_query_top"));
+        search.clear();
+        search.sendKeys("shirt");
+        search.sendKeys(Keys.RETURN);
+        assertTrue(driver.findElements(By.cssSelector(".ajax_block_product")).size() > 0);
     }
 
     //TC_CA_003
@@ -217,5 +241,126 @@ public class RegressionTests {
         Thread.sleep(3000);
         assertEquals("Your shopping cart is empty.", alert.getText());
     }
+
+    //TC_RE_003
+    @Test
+    public void unableToLeaveReview(){
+        driver.get("http://automationpractice.com/index.php?id_product=2&controller=product");
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"header_logo\"]/a/img")));
+        assertTrue(driver.findElements(By.xpath("//*[@id=\"new_comment_tab_btn\\\"]/span")).isEmpty());
+        assertTrue(driver.findElements(By.xpath("//*[@id=\"product_comments_block_extra\\\"]/ul/li/a")).isEmpty());
+    }
+
+    //TC_RE_001
+    @Test
+    public void userReviewFromWriteAReviewButton(){
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("seng275test@outlook.com");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("Seng275\n");
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"product_comments_block_extra\"]/ul/li/a")));
+        WebElement reviewButton = driver.findElement(By.xpath("//*[@id=\"product_comments_block_extra\"]/ul/li/a"));
+        reviewButton.click();
+        new WebDriverWait(driver,3);
+        WebElement starButton = driver.findElement(By.xpath("//*[@id=\"criterions_list\"]/li/div[1]/div[6]"));
+        starButton.click();
+        WebElement reviewTitle = driver.findElement(By.xpath("//*[@id=\"comment_title\"]"));
+        reviewTitle.sendKeys("good");
+        WebElement reviewBox = driver.findElement(By.xpath("//*[@id=\"content\"]"));
+        reviewBox.sendKeys("good");
+        WebElement submitReview = driver.findElement(By.xpath("//*[@id=\"submitNewMessage\"]/span"));
+        submitReview.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"product\"]/div[2]/div/div/div/h2")));
+        WebElement finalTextTitle = driver.findElement(By.xpath("//*[@id=\"product\"]/div[2]/div/div/div/h2"));
+        WebElement finalTextBody = driver.findElement(By.xpath("//*[@id=\"product\"]/div[2]/div/div/div/p[1]"));
+
+        assertEquals("New comment", finalTextTitle.getText());
+        assertEquals("Your comment has been added and will be available once approved by a moderator", finalTextBody.getText());
+    }
+
+    //TC_WS_001
+    @Test
+    public void addItemToWishlistWithoutPriorOne(){
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("seng275test@outlook.com");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("Seng275\n");
+
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
+        wishlistButton.click();
+
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlist = driver.findElement(By.cssSelector("a[href^='javascript']"));
+        wishlist.click();
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"wlp_1_1\"]")));
+
+        WebElement itemName = driver.findElement(By.xpath("//*[@id=\"s_title\"]"));
+        assertEquals(itemName.getText(), "Faded Short Sleeve T-shirts\nS, Orange");
+
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement deleteButton = driver.findElement(By.cssSelector("i[class*='icon-remove']"));
+        deleteButton.click();
+        driver.switchTo().alert().accept();
+    }
+
+    //TC_WS_004
+    @Test
+    public void removeItemFromWishlist(){
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("seng275test@outlook.com");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("Seng275\n");
+
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
+        wishlistButton.click();
+
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement wishlist = driver.findElement(By.cssSelector("a[href^='javascript']"));
+        wishlist.click();
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"wlp_1_1\"]")));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("icon-remove-sign")));
+        WebElement deleteItem = driver.findElement(By.className("icon-remove-sign"));
+        deleteItem.click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id=\"wlp_1_1\"]")));
+
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+        WebElement deleteButton = driver.findElement(By.cssSelector("i[class*='icon-remove']"));
+        deleteButton.click();
+        driver.switchTo().alert().accept();
+    }
+
+    //TC_WS_008
+    @Test
+    public void wishlistDeleteWithItems(){
+        driver.get("http://automationpractice.com/index.php?controller=authentication");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("seng275test@outlook.com");
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("Seng275\n");
+
+        driver.get("http://automationpractice.com/index.php?id_product=1&controller=product");
+        WebElement wishlistButton = driver.findElement(By.id("wishlist_button"));
+        wishlistButton.click();
+        driver.get("http://automationpractice.com/index.php?fc=module&module=blockwishlist&controller=mywishlist");
+
+        WebElement deleteButton = driver.findElement(By.cssSelector("i[class*='icon-remove']"));
+        deleteButton.click();
+        driver.switchTo().alert().accept();
+
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id=\"block-history\"]")));
+    }
+
 
 }
