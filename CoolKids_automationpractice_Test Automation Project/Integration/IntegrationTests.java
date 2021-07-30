@@ -34,6 +34,7 @@ public class IntegrationTests {
         driver.quit();
     }
 
+    // TC_IT_01
     @Test
     public void buyItemEndToEnd() {
         // sign in
@@ -68,6 +69,7 @@ public class IntegrationTests {
         assertTrue(driver.findElement(By.cssSelector(".price > strong")).getText().equals("$28.00"));
     }
 
+    // TC_IT_02
     @Test
     public void buyMultiItemsEndToEnd() {
         // sign in
@@ -118,6 +120,7 @@ public class IntegrationTests {
         assertTrue(driver.findElement(By.cssSelector(".price > strong")).getText().equals("$80.00"));
     }
 
+    // TC_IT_03
     @Test
     public void googleMapIntegration() {
         driver.get("http://automationpractice.com/index.php?controller=stores");
@@ -129,6 +132,7 @@ public class IntegrationTests {
         assertEquals("This page can't load Google Maps correctly.", map.getText());
     }
 
+    // TC_IT_04
     @Test
     public void socialMediaIntegration(){
         driver.get("http://automationpractice.com/index.php");
@@ -140,6 +144,7 @@ public class IntegrationTests {
         assertEquals(YouTube.getAttribute("href"), "https://www.youtube.com/channel/UCHl59sI3SRjQ-qPcTrgt0tA");
     }
 
+    // TC_IT_05
     @Test
     public void contactFormIntegrationTest() {
         // sends a message
