@@ -29,6 +29,9 @@ public class SecurityTest {
         driver.quit();
     }
 
+    //passing for these tests means that the security system failed, 
+    //e.g brute force test passing means that there is no limit to login attempts 
+
     @Test
     public void BruteForceLogin(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
