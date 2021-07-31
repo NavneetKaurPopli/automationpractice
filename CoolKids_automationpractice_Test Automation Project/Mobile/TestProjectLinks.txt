@@ -1,0 +1,9 @@
+Wishlist: https://app.testproject.io/#/shared-tests/with-me?s_token=Q7EfRQUc4EKqNTxwO1qr8g
+
+Compare: https://app.testproject.io/#/shared-tests/with-me?s_token=1_LJfc-_ZEiatjhtaNnfug
+
+Browse: https://app.testproject.io/#/shared-tests/with-me?s_token=Y6ZHkZwom0-gGIra50_3Mg
+
+Checkout: https://app.testproject.io/#/shared-tests/with-me?s_token=4wqbBtF82kixDSsnia0uPg
+
+Login: https://app.testproject.io/#/shared-tests/with-me?s_token=DYzbXQwnKU-x7BR0tEdhYw
