@@ -1,5 +1,3 @@
-package com.example.demo;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -378,6 +376,7 @@ public class RegressionTests {
         assertEquals(browser.getTitle(),"Women - My Store");
     }
 
+    @Test
     public void AddToCompare() {
         Actions actions;
         actions = new Actions(browser);
